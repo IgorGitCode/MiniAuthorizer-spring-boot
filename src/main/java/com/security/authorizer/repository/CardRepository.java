@@ -6,4 +6,5 @@ import com.security.authorizer.models.CardModel;
 
 public interface CardRepository extends JpaRepository<CardModel, Long> {
 
+    CardModel findByCardNumber(String cardNumber);
 }
