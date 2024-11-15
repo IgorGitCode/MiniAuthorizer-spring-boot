@@ -18,11 +18,6 @@ public class CardServices {
 
     public CardModel addNewCard(CardModel cardModel) {
         System.out.println("Service");
-        //CardModel card = new CardModel();
-        // card.setId(40);
-        // card.setCardNumber("666");
-        // card.setPassword("senha");
-        // card.setBalance(400.00);
         return cardRepository.save(cardModel);
     }
 }

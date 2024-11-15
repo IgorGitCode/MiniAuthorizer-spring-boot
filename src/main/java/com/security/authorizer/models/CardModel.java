@@ -3,7 +3,7 @@ package com.security.authorizer.models;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +18,8 @@ public class CardModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    //@NotNull
+    //@NotNull nullable = false
+    @Column(unique = true)
     private String cardNumber;
     //@NotNull
     private String password;

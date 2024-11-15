@@ -1,8 +1,11 @@
 package com.security.authorizer.controllers;
 
+import java.net.URI;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +29,13 @@ public class CardController {
     }
 
     @PostMapping("/cartoes")
-    public ResponseEntity<CardModel> addNewCard(@RequestBody CardModel cardModel) {
-        CardModel newCard = cardService.addNewCard(cardModel);
-        System.out.println("controller");
-        return ResponseEntity.ok(newCard);
+    public ResponseEntity<CardModel> addNewCard(@Valid @RequestBody CardModel cardModel) {
+        try {
+            CardModel newCard = cardService.addNewCard(cardModel);
+            URI location = URI.create("/cartoes/" + newCard.getCardNumber());
+            return ResponseEntity.created(location).body(newCard);
+        } catch(DataIntegrityViolationException e) {
+            return ResponseEntity.status(422).body(cardModel);
+        }
     }
 }
