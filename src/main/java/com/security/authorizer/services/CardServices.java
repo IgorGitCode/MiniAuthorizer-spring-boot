@@ -1,5 +1,7 @@
 package com.security.authorizer.services;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,14 @@ public class CardServices {
     private CardRepository cardRepository;
 
     public CardModel getCard(String cardNumber) {
-        return cardRepository.findByCardNumber(cardNumber);
+            CardModel cardSaved = cardRepository.findByCardNumber(cardNumber);
+            if (cardSaved != null) {
+                return cardSaved;
+            }
+            return new CardModel();
     }
 
     public CardModel addNewCard(CardModel cardModel) {
-        System.out.println("Service");
         return cardRepository.save(cardModel);
     }
 }

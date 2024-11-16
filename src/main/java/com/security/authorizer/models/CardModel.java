@@ -1,7 +1,6 @@
 package com.security.authorizer.models;
 
 import java.math.BigDecimal;
-import javax.validation.constraints.NotNull;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,12 +17,11 @@ public class CardModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    //@NotNull nullable = false
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String cardNumber;
-    //@NotNull
+    @Column(nullable = false)
     private String password;
-    //@NotNull
+    @Column(nullable = false)
     private Double balance; //BigDecimal para garantir precisao exata
 
     //codigo branch dev/test

@@ -22,14 +22,19 @@ public class CardController {
     @Autowired
     private CardServices cardService;
 
-    @GetMapping("cartoes/{numeroCartao}")
+    @GetMapping("cartoes/{cardNumber}")
     public ResponseEntity<CardModel> getCard(@PathVariable String cardNumber) {
+        System.out.println("get");
         CardModel card = cardService.getCard(cardNumber);
-        return ResponseEntity.ok(card);
+        if (card.getCardNumber() != null) {
+            return ResponseEntity.ok(card);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/cartoes")
     public ResponseEntity<CardModel> addNewCard(@Valid @RequestBody CardModel cardModel) {
+        System.out.println("post");
         try {
             CardModel newCard = cardService.addNewCard(cardModel);
             URI location = URI.create("/cartoes/" + newCard.getCardNumber());
