@@ -24,7 +24,6 @@ public class CardController {
 
     @GetMapping("cartoes/{cardNumber}")
     public ResponseEntity<CardModel> getCard(@PathVariable String cardNumber) {
-        System.out.println("get");
         CardModel card = cardService.getCard(cardNumber);
         if (card.getCardNumber() != null) {
             return ResponseEntity.ok(card);
@@ -34,7 +33,6 @@ public class CardController {
 
     @PostMapping("/cartoes")
     public ResponseEntity<CardModel> addNewCard(@Valid @RequestBody CardModel cardModel) {
-        System.out.println("post");
         try {
             CardModel newCard = cardService.addNewCard(cardModel);
             URI location = URI.create("/cartoes/" + newCard.getCardNumber());

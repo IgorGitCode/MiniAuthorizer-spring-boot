@@ -23,6 +23,7 @@ public class CardServices {
     }
 
     public CardModel addNewCard(CardModel cardModel) {
+        cardModel.setBalance(500.00);
         return cardRepository.save(cardModel);
     }
 }
