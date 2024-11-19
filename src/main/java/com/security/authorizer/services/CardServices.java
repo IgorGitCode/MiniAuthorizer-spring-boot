@@ -8,6 +8,10 @@ import com.security.authorizer.repository.CardRepository;
 import com.security.authorizer.dto.RequestTransferDto;
 
 import jakarta.transaction.Transactional;
+import java.util.Optional;
+
+import com.security.authorizer.dto.ResponseTranferDto;
+
 @Service
 public class CardServices {
 
@@ -15,11 +19,8 @@ public class CardServices {
     private CardRepository cardRepository;
 
     public CardModel getCard(String cardNumber) {
-            CardModel cardSaved = cardRepository.findByCardNumber(cardNumber);
-            if (cardSaved != null) {
-                return cardSaved;
-            }
-            return new CardModel();
+            Optional<CardModel> cardSaved = cardRepository.findByCardNumber(cardNumber);
+            return cardSaved.orElse(new CardModel());
     }
 
     public CardModel addNewCard(CardModel cardModel) {
@@ -28,21 +29,21 @@ public class CardServices {
     }
 
     @Transactional
-    public String makeTransfer(RequestTransferDto card) {
+    public ResponseTranferDto makeTransfer(RequestTransferDto card) {
         if (!verifyExistCard(card.cardNumber())) {
-            return "Cartao inexistente!";
+            return new ResponseTranferDto(false, "Cartao inexistente!");
         }
 
         if (!verifyBalance(card.cardNumber(), card.value())) {
-            return "saldo insuficientte";
+            return new ResponseTranferDto(false, "saldo insuficiente!");
         }
 
         if (!verifyPassword(card.cardNumber(), card.password())) {
-            return "Senha incorreta";
+            return new ResponseTranferDto(false, "Senha incorreta!");
         }
 
         cardRepository.subtractBalance(card.cardNumber(), card.value());
-        return "transferencia realizada";
+        return new ResponseTranferDto(true, "transferencia realizada!");
     }
 
     private boolean verifyExistCard(String cardNumber) {
@@ -50,17 +51,13 @@ public class CardServices {
     }
 
     private boolean verifyBalance(String cardNumber, double valor) {
-        CardModel card = cardRepository.findByCardNumber(cardNumber);
-        if (card == null) {
-            return false;
-        }
-
-        return card.getBalance() >= valor;
+        Optional<CardModel> card = cardRepository.findByCardNumber(cardNumber);
+        return card.map(c -> c.getBalance() >= valor).orElse(false);
     }
     
 
     private boolean verifyPassword(String cardNumber, String password) {
-        CardModel card = cardRepository.findByCardNumber(cardNumber);
-        return card.getPassword().equals(password);
+        Optional<CardModel> card = cardRepository.findByCardNumber(cardNumber);
+        return card.map(c -> c.getPassword().equals(password)).orElse(false);
     }
 };
