@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.security.authorizer.dto.RequestTransferDto;
-import com.security.authorizer.models.CardModel;
-import com.security.authorizer.repository.CardRepository;
 
 import jakarta.transaction.Transactional;
 
-@Service
+import com.security.authorizer.models.CardModel;
+import com.security.authorizer.repository.CardRepository;
+
 public class CardServices {
 
     @Autowired
