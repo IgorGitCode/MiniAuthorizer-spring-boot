@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.security.authorizer.dto.RequestTransferDto;
+import com.security.authorizer.dto.ResponseTranferDto;
 import com.security.authorizer.models.CardModel;
 import com.security.authorizer.services.CardServices;
 
@@ -44,8 +45,11 @@ public class CardController {
     }
 
     @PostMapping("/transacao")
-    public ResponseEntity makeTransfer(@RequestBody RequestTransferDto card) {
-        cardService.makeTransfer(card);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> makeTransfer(@RequestBody RequestTransferDto card) {
+        ResponseTranferDto response = cardService.makeTransfer(card);
+        if (response.sucess()) {
+            return ResponseEntity.ok(response.message());
+        }
+        return ResponseEntity.status(422).body(response.message());
     }
 }
