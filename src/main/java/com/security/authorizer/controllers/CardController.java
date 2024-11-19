@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.security.authorizer.dto.RequestTransferDto;
 import com.security.authorizer.models.CardModel;
 import com.security.authorizer.services.CardServices;
 
@@ -40,5 +41,11 @@ public class CardController {
         } catch(DataIntegrityViolationException e) {
             return ResponseEntity.status(422).body(cardModel);
         }
+    }
+
+    @PostMapping("/transacao")
+    public ResponseEntity makeTransfer(@RequestBody RequestTransferDto card) {
+        cardService.makeTransfer(card);
+        return ResponseEntity.ok().build();
     }
 }
