@@ -24,7 +24,7 @@ public class CardController {
     @Autowired
     private CardServices cardService;
 
-    @GetMapping("cartoes/{cardNumber}")
+    @GetMapping("/cartoes/{cardNumber}")
     public ResponseEntity<CardModel> getCard(@PathVariable String cardNumber) {
         CardModel card = cardService.getCard(cardNumber);
         if (card.getCardNumber() != null) {

@@ -14,7 +14,7 @@ public interface CardRepository extends JpaRepository<CardModel, Long> {
     Optional<CardModel> findByCardNumber(String cardNumber);
     boolean existsByCardNumber(String cardNumber);
 
-    @Modifying
+    @Modifying //@Query makes the change directly on the DB, preventing race conditions!
     @Query(value = "UPDATE card_model SET balance = balance - :amount WHERE card_number = :cardNumber AND balance >= :amount", nativeQuery = true)
     int subtractBalance(@Param("cardNumber") String cardNumber, @Param("amount") double amount);
 }

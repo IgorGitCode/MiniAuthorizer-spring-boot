@@ -29,7 +29,7 @@ public class CardServices {
         return cardRepository.save(cardModel);
     }
 
-    @Transactional
+    @Transactional //Transactional ensures atomicity, preventing race conditions!
     public ResponseTranferDto makeTransfer(RequestTransferDto card) {
         if (!verifyExistCard(card.cardNumber())) {
             return new ResponseTranferDto(false, "Cartao inexistente!");
