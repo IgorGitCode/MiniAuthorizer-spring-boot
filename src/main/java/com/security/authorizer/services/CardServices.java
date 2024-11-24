@@ -1,16 +1,21 @@
 package com.security.authorizer.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.security.authorizer.models.CardModel;
-import com.security.authorizer.repository.CardRepository;
-import com.security.authorizer.dto.RequestTransferDto;
-
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.security.authorizer.dto.RequestTransferDto;
 import com.security.authorizer.dto.ResponseTranferDto;
+
+import jakarta.transaction.Transactional;
+
+import com.security.authorizer.models.CardModel;
+import com.security.authorizer.repository.CardRepository;
 
 @Service
 public class CardServices {
@@ -28,7 +33,7 @@ public class CardServices {
         return cardRepository.save(cardModel);
     }
 
-    @Transactional
+    @Transactional //Transactional ensures atomicity, preventing race conditions!
     public ResponseTranferDto makeTransfer(RequestTransferDto card) {
         if (!verifyExistCard(card.cardNumber())) {
             return new ResponseTranferDto(false, "Cartao inexistente!");
@@ -52,7 +57,7 @@ public class CardServices {
 
     private boolean verifyBalance(String cardNumber, double valor) {
         Optional<CardModel> card = cardRepository.findByCardNumber(cardNumber);
-        return card.map(c -> c.getBalance() >= valor).orElse(false);
+        return card.map(c -> c.getBalance() >= valor).orElse(false);        
     }
     
 
