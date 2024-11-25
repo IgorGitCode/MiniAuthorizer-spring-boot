@@ -1,9 +1,5 @@
 package com.security.authorizer.services;
 
-import jakarta.transaction.Transactional;
-import java.util.Optional;
-
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,7 @@ import com.security.authorizer.models.Card;
 import com.security.authorizer.repository.CardRepository;
 
 @Service
-public class CardServices {
+public class CardService {
 
     @Autowired
     private CardRepository cardRepository;

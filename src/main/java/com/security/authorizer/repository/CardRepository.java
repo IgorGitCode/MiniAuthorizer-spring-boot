@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.security.authorizer.models.CardModel;
+import com.security.authorizer.models.Card;
 
-public interface CardRepository extends JpaRepository<CardModel, Long> {
-    Optional<CardModel> findByCardNumber(String cardNumber);
+public interface CardRepository extends JpaRepository<Card, Long> {
+
+    Optional<Card> findByCardNumber(String cardNumber);
     boolean existsByCardNumber(String cardNumber);
 
     @Modifying //@Query makes the change directly on the DB, preventing race conditions!

@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.security.authorizer.dto.RequestTransferDto;
 import com.security.authorizer.dto.ResponseTranferDto;
-import com.security.authorizer.models.CardModel;
-import com.security.authorizer.services.CardServices;
+import com.security.authorizer.models.Card;
+import com.security.authorizer.services.CardService;
 
 @RestController
 public class CardController {
 
     @Autowired
-    private CardServices cardService;
+    private CardService cardService;
 
     @GetMapping("/cartoes/{cardNumber}")
-    public ResponseEntity<CardModel> getCard(@PathVariable String cardNumber) {
-        CardModel card = cardService.getCard(cardNumber);
+    public ResponseEntity<Card> getCard(@PathVariable String cardNumber) {
+        Card card = cardService.getCard(cardNumber);
         if (card.getCardNumber() != null) {
             return ResponseEntity.ok(card);
         }
@@ -34,9 +34,9 @@ public class CardController {
     }
 
     @PostMapping("/cartoes")
-    public ResponseEntity<CardModel> addNewCard(@Valid @RequestBody CardModel cardModel) {
+    public ResponseEntity<Card> addNewCard(@Valid @RequestBody Card cardModel) {
         try {
-            CardModel newCard = cardService.addNewCard(cardModel);
+            Card newCard = cardService.addNewCard(cardModel);
             URI location = URI.create("/cartoes/" + newCard.getCardNumber());
             return ResponseEntity.created(location).body(newCard);
         } catch(DataIntegrityViolationException e) {

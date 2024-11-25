@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardModel {
+public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
